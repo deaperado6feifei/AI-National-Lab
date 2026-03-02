@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indonesia's Sovereign Healthcare AI Lab</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: {
+50: '#e6f7fa',
+100: '#ccf0f5',
+200: '#99e1eb',
+300: '#66d2e0',
+400: '#33c3d6',
+500: '#00b4cc',
+600: '#0090a3',
+700: '#006c7a',
+800: '#004852',
+900: '#002429'
+},
+accent: {
+gold: '#d4a853',
+teal: '#14b8a6',
+indigo: '#6366f1'
+},
+surface: {
+50: '#f8fafc',
+100: '#f1f5f9',
+200: '#e2e8f0',
+700: '#1e293b',
+800: '#0f172a',
+900: '#020617'
+}
+},
+fontFamily: {
+sans: ['Inter', 'system-ui', 'sans-serif'],
+display: ['Inter', 'system-ui', 'sans-serif']
+}
+}
+}
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+scroll-behavior: smooth;
+}
+body {
+font-family: 'Inter', sans-serif;
+background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%);
+}
+.glass {
+background: rgba(255, 255, 255, 0.03);
+backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.glass-strong {
+background: rgba(255, 255, 255, 0.06);
+backdrop-filter: blur(30px);
+border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.gradient-text {
+background: linear-gradient(135deg, #00b4cc 0%, #14b8a6 50%, #6366f1 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+.gradient-border {
+position: relative;
+}
+.gradient-border::before {
+content: '';
+position: absolute;
+inset: 0;
+border-radius: inherit;
+padding: 1px;
+background: linear-gradient(135deg, rgba(0, 180, 204, 0.5), rgba(20, 184, 166, 0.5), rgba(99, 102, 241, 0.5));
+-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+-webkit-mask-composite: xor;
+mask-composite: exclude;
+}
+.glow {
+box-shadow: 0 0 60px rgba(0, 180, 204, 0.15), 0 0 120px rgba(20, 184, 166, 0.1);
+}
+.nav-link {
+position: relative;
+}
+.nav-link::after {
+content: '';
+position: absolute;
+bottom: -4px;
+left: 0;
+width: 0;
+height: 2px;
+background: linear-gradient(90deg, #00b4cc, #14b8a6);
+transition: width 0.3s ease;
+}
+.nav-link:hover::after, .nav-link.active::after {
+width: 100%;
+}
+.section-card {
+transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.section-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+.fade-in {
+opacity: 0;
+transform: translateY(30px);
+transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-in.visible {
+opacity: 1;
+transform: translateY(0);
+}
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+.pulse-ring {
+animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes pulse-ring {
+0%, 100% { opacity: 0.3; transform: scale(1); }
+50% { opacity: 0.6; transform: scale(1.05); }
+}
+.float {
+animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-20px); }
+}
+.progress-bar {
+height: 3px;
+background: linear-gradient(90deg, #00b4cc, #14b8a6);
+transform-origin: left;
+transition: transform 0.1s linear;
+}
+.triangle-node {
+transition: all 0.3s ease;
+}
+.triangle-node:hover {
+transform: scale(1.1);
+}
+.triangle-node:hover .node-glow {
+opacity: 1;
+}
+.node-glow {
+opacity: 0;
+transition: opacity 0.3s ease;
+}
+.stage-line {
+stroke-dasharray: 1000;
+stroke-dashoffset: 1000;
+transition: stroke-dashoffset 1.5s ease;
+}
+.stage-line.visible {
+stroke-dashoffset: 0;
+}
+.metric-card {
+position: relative;
+overflow: hidden;
+}
+.metric-card::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+transition: left 0.5s ease;
+}
+.metric-card:hover::before {
+left: 100%;
+}
+/* Highlight styles for key terms */
+.highlight-sovereign {
+background: linear-gradient(135deg, #00b4cc, #14b8a6);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-weight: 700;
+padding: 2px 6px;
+position: relative;
+}
+.highlight-secure {
+background: linear-gradient(135deg, #76b900, #5a8f00);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-weight: 700;
+padding: 2px 6px;
+}
+.highlight-foreign {
+background: linear-gradient(135deg, #ff6b35, #cc5500);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-weight: 700;
+padding: 2px 6px;
+}
+.highlight-box {
+background: linear-gradient(135deg, rgba(0, 180, 204, 0.2), rgba(20, 184, 166, 0.2));
+border: 2px solid rgba(0, 180, 204, 0.4);
+border-radius: 6px;
+padding: 4px 12px;
+font-weight: 600;
+display: inline-block;
+transition: all 0.3s ease;
+}
+.highlight-box:hover {
+border-color: #00b4cc;
+box-shadow: 0 0 20px rgba(0, 180, 204, 0.3);
+transform: translateY(-2px);
+}
+/* Articura brand highlighting */
+.highlight-articura {
+background: linear-gradient(135deg, #f59e0b, #d97706);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-weight: 800;
+font-size: 1.1em;
+letter-spacing: 0.05em;
+text-transform: uppercase;
+position: relative;
+}
+.highlight-articura::after {
+content: '';
+position: absolute;
+bottom: -2px;
+left: 0;
+right: 0;
+height: 2px;
+background: linear-gradient(90deg, transparent, #f59e0b, #d97706, transparent);
+animation: shimmer 2s infinite;
+}
+@keyframes shimmer {
+0%, 100% { opacity: 0.5; transform: translateX(-100%); }
+50% { opacity: 1; transform: translateX(100%); }
+}
+/* Special title effect */
+.special-title {
+background: linear-gradient(135deg, #76b900, #00b4cc, #76b900);
+background-size: 200% 200%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-weight: 800;
+animation: gradient-flow 3s ease infinite;
+}
+@keyframes gradient-flow {
+0%, 100% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+}
+/* Special description effect */
+.special-desc {
+background: linear-gradient(90deg, #76b900, #00b4cc, #f59e0b);
+background-size: 200% auto;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+font-weight: 700;
+animation: text-gradient 4s linear infinite;
+}
+@keyframes text-gradient {
+0% { background-position: 0% center; }
+100% { background-position: 200% center; }
+}
+</style>
+</head>
+<body class="text-gray-100 min-h-screen overflow-x-hidden">
+<!-- Progress Bar -->
+<div class="fixed top-0 left-0 w-full z-50">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Navigation -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 z-40 glass-strong rounded-2xl px-6 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-teal flex items-center justify-center">
+<i class="fas fa-dna text-white text-lg"></i>
+</div>
+<span class="font-bold text-lg">HealthAI ID</span>
+</div>
+<div class="hidden md:flex items-center gap-6 text-sm">
+<a href="#background" class="nav-link text-gray-300 hover:text-white transition-colors">Background</a>
+<a href="#valuation" class="nav-link text-gray-300 hover:text-white transition-colors">Valuation</a>
+<a href="#product" class="nav-link text-gray-300 hover:text-white transition-colors">Product</a>
+<a href="#roadmap" class="nav-link text-gray-300 hover:text-white transition-colors">Roadmap</a>
+<a href="#model" class="nav-link text-gray-300 hover:text-white transition-colors">Model</a>
+</div>
+</div>
+</nav>
+
+<!-- Hero Section -->
+<section class="min-h-screen flex items-center justify-center relative px-4 pt-20">
+<div class="absolute inset-0 overflow-hidden">
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl float"></div>
+<div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent-teal/10 rounded-full blur-3xl float" style="animation-delay: -3s;"></div>
+<div class="absolute top-1/2 left-1/2 w-64 h-64 bg-accent-indigo/10 rounded-full blur-3xl float" style="animation-delay: -1.5s;"></div>
+</div>
+
+<div class="max-w-6xl mx-auto text-center relative z-10">
+<div class="fade-in">
+<div class="inline-flex items-center gap-2 glass px-4 py-2 rounded-full text-sm text-primary-400 mb-8">
+<i class="fas fa-globe-asia"></i>
+<span>Strategic Partnership Opportunity</span>
+</div>
+</div>
+
+<h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 fade-in stagger-1 leading-tight">
+Co-Building Indonesia's<br>
+<span class="gradient-text">Sovereign Healthcare AI Lab</span>
+</h1>
+
+<p class="text-xl md:text-2xl text-gray-400 mb-12 fade-in stagger-2 max-w-3xl mx-auto">
+From Digital Infrastructure to National Intelligence Hub
+</p>
+
+<div class="flex flex-wrap justify-center gap-4 fade-in stagger-3">
+<a href="#background" class="px-8 py-4 bg-gradient-to-r from-primary-500 to-accent-teal rounded-xl font-semibold hover:shadow-lg hover:shadow-primary-500/25 transition-all hover:-translate-y-1">
+Explore the Vision
+</a>
+<a href="#contact" class="px-8 py-4 glass rounded-xl font-semibold hover:bg-white/10 transition-all">
+Partner With Us
+</a>
+</div>
+
+<div class="mt-20 grid grid-cols-2 gap-8 max-w-2xl mx-auto fade-in stagger-4">
+<div class="text-center">
+<div class="text-3xl md:text-4xl font-bold gradient-text">100%</div>
+<div class="text-sm text-gray-500 mt-1">Data <span class="highlight-sovereign">Sovereignty</span></div>
+</div>
+<div class="text-center">
+<div class="text-3xl md:text-4xl font-bold gradient-text">NTU</div>
+<div class="text-sm text-gray-500 mt-1">Technology Partner</div>
+</div>
+</div>
+</div>
+
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+<i class="fas fa-chevron-down text-gray-500"></i>
+</div>
+</section>
+
+<!-- Section I: Era Background -->
+<section id="background" class="py-24 px-4">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16 fade-in">
+<div class="inline-flex items-center gap-2 text-primary-400 text-sm font-semibold mb-4">
+<span class="w-8 h-px bg-primary-400"></span>
+SECTION I
+<span class="w-8 h-px bg-primary-400"></span>
+</div>
+<h2 class="text-3xl md:text-5xl font-bold mb-4">Era Background</h2>
+<p class="text-gray-400 text-lg">The Paradigm Shift in Global AI Industry</p>
+</div>
+
+<!-- Paradigm 1: Vendor-Investor Model -->
+<div class="grid lg:grid-cols-2 gap-8 mb-12">
+<div class="section-card glass rounded-3xl p-8 fade-in">
+<div class="flex items-start gap-4 mb-6">
+<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500/20 to-primary-500/5 flex items-center justify-center flex-shrink-0">
+<i class="fas fa-handshake text-primary-400 text-xl"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold mb-2">New Financing Paradigm</h3>
+<p class="text-primary-400 text-sm font-medium">The Vendor-Investor Model</p>
+</div>
+</div>
+<p class="text-gray-300 leading-relaxed mb-6">
+In the current AI boom, a successful business paradigm is forming globally: <span class="text-white font-semibold">"The Investor as Supplier."</span> For example, NVIDIA, as a core hardware supplier, has simultaneously become a core investor in top-tier AI enterprises like OpenAI.
+</p>
+<div class="glass rounded-2xl p-5 border-l-4 border-primary-500">
+<p class="text-sm text-gray-400">
+<span class="text-white font-medium">Strategic Insight:</span> This is not merely capital injection; it is the direct injection of core computing power capabilities, ensuring precision and strategic synergy in the use of funds.
+</p>
+</div>
+</div>
+
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-1">
+<div class="flex items-center justify-between mb-6">
+<span class="text-xs font-semibold text-primary-400 tracking-wider">VISUAL INSTRUCTION A</span>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+<span class="text-xs text-gray-500">Reference</span>
+</div>
+</div>
+<div class="aspect-video rounded-2xl bg-gradient-to-br from-surface-800 to-surface-900 flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-blue-500/5"></div>
+<svg viewBox="0 0 300 200" class="w-full h-full p-4">
+<!-- OpenAI at top (center) -->
+<circle cx="150" cy="40" r="35" fill="rgba(100,100,100,0.2)" stroke="#888" stroke-width="2"/>
+<text x="150" y="35" text-anchor="middle" fill="#ddd" font-size="12" font-weight="bold">OpenAI</text>
+<text x="150" y="50" text-anchor="middle" fill="#888" font-size="9">Investee</text>
+
+<!-- Oracle at bottom left -->
+<circle cx="70" cy="150" r="35" fill="rgba(255,107,53,0.15)" stroke="#ff6b35" stroke-width="2"/>
+<text x="70" y="145" text-anchor="middle" fill="#ff6b35" font-size="11" font-weight="bold">Oracle</text>
+<text x="70" y="160" text-anchor="middle" fill="#888" font-size="9">Investor</text>
+
+<!-- NVIDIA at bottom right -->
+<circle cx="230" cy="150" r="35" fill="rgba(118,185,0,0.15)" stroke="#76b900" stroke-width="2"/>
+<text x="230" y="145" text-anchor="middle" fill="#76b900" font-size="11" font-weight="bold">NVIDIA</text>
+<text x="230" y="160" text-anchor="middle" fill="#888" font-size="9">Investor</text>
+
+<!-- Arrow from Oracle to OpenAI -->
+<defs>
+<marker id="arrowhead-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#ff6b35" />
+</marker>
+</defs>
+<line x1="95" y1="130" x2="130" y2="60" stroke="#ff6b35" stroke-width="2" marker-end="url(#arrowhead-orange)" stroke-dasharray="5,3"/>
+<text x="100" y="95" fill="#ff6b35" font-size="8" text-anchor="middle">Investment</text>
+
+<!-- Arrow from NVIDIA to OpenAI -->
+<defs>
+<marker id="arrowhead-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#76b900" />
+</marker>
+</defs>
+<line x1="205" y1="130" x2="170" y2="60" stroke="#76b900" stroke-width="2" marker-end="url(#arrowhead-green)" stroke-dasharray="5,3"/>
+<text x="200" y="95" fill="#76b900" font-size="8" text-anchor="middle">Investment</text>
+</svg>
+</div>
+<p class="text-xs text-gray-500 mt-4 text-center">Insert: Screenshot showing Oracle and NVIDIA investment in OpenAI</p>
+</div>
+</div>
+
+<!-- Paradigm 2: Healthcare Benchmark -->
+<div class="grid lg:grid-cols-2 gap-8">
+<div class="section-card glass rounded-3xl p-8 fade-in">
+<div class="flex items-start gap-4 mb-6">
+<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-teal/20 to-accent-teal/5 flex items-center justify-center flex-shrink-0">
+<i class="fas fa-flask text-accent-teal text-xl"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold mb-2">Healthcare Benchmark</h3>
+<p class="text-accent-teal text-sm font-medium">NVIDIA & Eli Lilly AI Healthcare Lab</p>
+</div>
+</div>
+<p class="text-gray-300 leading-relaxed mb-6">
+Top institutions are accelerating commercialization through <span class="text-white font-semibold">"Co-built Laboratories."</span> NVIDIA and Eli Lilly have partnered to establish an AI Healthcare Lab, directly converting hardware capabilities into medical scenario productivity.
+</p>
+<div class="flex items-center gap-3 p-4 rounded-xl bg-accent-gold/10 border border-accent-gold/20">
+<i class="fas fa-exclamation-triangle text-accent-gold"></i>
+<p class="text-sm text-gray-300">
+<span class="text-accent-gold font-medium">Key Insight:</span> This paradigm remains a blank slate in Southeast Asia.
+</p>
+</div>
+</div>
+
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-1">
+<div class="flex items-center justify-between mb-6">
+<span class="text-xs font-semibold text-accent-teal tracking-wider">VISUAL INSTRUCTION B</span>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+<span class="text-xs text-gray-500">Reference</span>
+</div>
+</div>
+<div class="aspect-video rounded-2xl bg-gradient-to-br from-surface-800 to-surface-900 flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-purple-500/5"></div>
+<div class="flex items-center gap-6">
+<div class="text-center">
+<div class="w-16 h-16 rounded-xl bg-green-500/20 flex items-center justify-center mb-2">
+<span class="text-xl font-bold text-green-400">N</span>
+</div>
+<span class="text-xs text-gray-400">NVIDIA</span>
+</div>
+<div class="text-4xl text-primary-400">+</div>
+<div class="text-center">
+<div class="w-16 h-16 rounded-xl bg-red-500/20 flex items-center justify-center mb-2">
+<i class="fas fa-pills text-red-400"></i>
+</div>
+<span class="text-xs text-gray-400">Eli Lilly</span>
+</div>
+<div class="text-4xl text-gray-600">=</div>
+<div class="text-center">
+<div class="w-16 h-16 rounded-xl bg-primary-500/20 flex items-center justify-center mb-2">
+<i class="fas fa-heartbeat text-primary-400"></i>
+</div>
+<span class="text-xs text-gray-400">AI Lab</span>
+</div>
+</div>
+</div>
+<p class="text-xs text-gray-500 mt-4 text-center">Insert: Official NVIDIA & Eli Lilly collaboration news screenshot</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section II: Valuation Opportunity -->
+<section id="valuation" class="py-24 px-4 relative">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary-900/5 to-transparent"></div>
+<div class="max-w-7xl mx-auto relative z-10">
+<div class="text-center mb-16 fade-in">
+<div class="inline-flex items-center gap-2 text-accent-gold text-sm font-semibold mb-4">
+<span class="w-8 h-px bg-accent-gold"></span>
+SECTION II
+<span class="w-8 h-px bg-accent-gold"></span>
+</div>
+<h2 class="text-3xl md:text-5xl font-bold mb-4">Valuation Opportunity</h2>
+<p class="text-gray-400 text-lg">Creating "Irreplaceable" Regional Exclusivity</p>
+</div>
+
+<!-- New Valuation System -->
+<div class="section-card glass rounded-3xl p-8 mb-8 fade-in">
+<h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+<i class="fas fa-chart-line text-primary-400"></i>
+New Valuation System: Finding "Core Assets" in the AI Era
+</h3>
+<p class="text-gray-300 mb-8">Traditional internet valuation metrics are failing for AI companies. Capital markets are assessing AI enterprises using a new standard:</p>
+
+<div class="grid md:grid-cols-3 gap-6 mb-8">
+<div class="metric-card glass rounded-2xl p-6">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-xl bg-primary-500/20 flex items-center justify-center">
+<i class="fas fa-percentage text-primary-400"></i>
+</div>
+<h4 class="font-semibold">AI Gross Margin</h4>
+</div>
+<p class="text-sm text-gray-400">Core financial metric for sustainable AI business models</p>
+</div>
+<div class="metric-card glass rounded-2xl p-6">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-xl bg-accent-teal/20 flex items-center justify-center">
+<i class="fas fa-sync text-accent-teal"></i>
+</div>
+<h4 class="font-semibold">Retention Rate</h4>
+</div>
+<p class="text-sm text-gray-400"><span class="text-accent-teal font-bold">&gt;90%</span> is a prime target for embedded services</p>
+</div>
+<div class="metric-card glass rounded-2xl p-6">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-xl bg-accent-indigo/20 flex items-center justify-center">
+<i class="fas fa-link text-accent-indigo"></i>
+</div>
+<h4 class="font-semibold">Process Embedding</h4>
+</div>
+<p class="text-sm text-gray-400">Depth determines valuation premium</p>
+</div>
+</div>
+
+<div class="glass rounded-2xl p-6 border-l-4 border-accent-gold">
+<h4 class="font-semibold text-accent-gold mb-3">Evolution Path</h4>
+<div class="flex flex-wrap items-center gap-4 text-sm">
+<span class="px-4 py-2 rounded-lg bg-surface-700">Plug-in Tool</span>
+<i class="fas fa-arrow-right text-gray-500"></i>
+<span class="px-4 py-2 rounded-lg bg-surface-700">Symbiotic Integration</span>
+<i class="fas fa-arrow-right text-gray-500"></i>
+<span class="px-4 py-2 rounded-lg bg-gradient-to-r from-primary-500/20 to-accent-teal/20 border border-primary-500/30">AI-Native</span>
+</div>
+</div>
+</div>
+
+<!-- Current Key Opportunity -->
+<div class="section-card glass rounded-3xl p-8 mb-8 fade-in">
+<h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+<i class="fas fa-crosshairs text-accent-teal"></i>
+Current Key Opportunity: <span class="highlight-articura">Articura</span>'s Foundation
+</h3>
+<div class="grid md:grid-cols-3 gap-6">
+<div class="p-6 rounded-2xl bg-gradient-to-br from-primary-500/10 to-transparent border border-primary-500/20">
+<div class="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center mb-4">
+<i class="fas fa-cogs text-primary-400"></i>
+</div>
+<h4 class="font-bold mb-2">Process Embedder</h4>
+<p class="text-sm text-gray-400">Deeply embedded in core medical processes from diagnosis, testing to management</p>
+</div>
+<div class="p-6 rounded-2xl bg-gradient-to-br from-accent-teal/10 to-transparent border border-accent-teal/20">
+<div class="w-12 h-12 rounded-xl bg-accent-teal/20 flex items-center justify-center mb-4">
+<i class="fas fa-database text-accent-teal"></i>
+</div>
+<h4 class="font-bold mb-2">Data Channel Controller</h4>
+<p class="text-sm text-gray-400">Connecting HIS, LIS, and PACS systems - mastering core medical data flow</p>
+</div>
+<div class="p-6 rounded-2xl bg-gradient-to-br from-accent-indigo/10 to-transparent border border-accent-indigo/20">
+<div class="w-12 h-12 rounded-xl bg-accent-indigo/20 flex items-center justify-center mb-4">
+<i class="fas fa-shield-alt text-accent-indigo"></i>
+</div>
+<h4 class="font-bold mb-2">Regional Exclusivity</h4>
+<p class="text-sm text-gray-400">Natural moat through extensive connectivity and local system understanding</p>
+</div>
+</div>
+</div>
+
+<!-- Strategic High Ground -->
+<div class="grid lg:grid-cols-2 gap-8">
+<div class="section-card glass rounded-3xl p-8 fade-in">
+<h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+<i class="fas fa-brain text-accent-indigo"></i>
+Strategic High Ground
+</h3>
+<p class="text-gray-300 mb-6">Incubating the <span class="text-white font-bold">"Indonesian Indigenous Medical LLM"</span></p>
+
+<div class="space-y-4">
+<div class="flex items-start gap-3 p-4 rounded-xl bg-surface-800/50">
+<i class="fas fa-globe-americas text-red-400 mt-1"></i>
+<div>
+<h4 class="font-semibold text-sm mb-1">Geopolitical Reality</h4>
+<p class="text-xs text-gray-400">International tensions and technology blockades make data <span class="highlight-sovereign">sovereignty</span> a national <span class="highlight-secure">security</span> matter</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-4 rounded-xl bg-surface-800/50">
+<i class="fas fa-user-shield text-primary-400 mt-1"></i>
+<div>
+<h4 class="font-semibold text-sm mb-1">Compliance Risk</h4>
+<p class="text-xs text-gray-400"><span class="highlight-foreign">Foreign</span> LLMs carry massive data leakage and compliance risks</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-4 rounded-xl bg-surface-800/50">
+<i class="fas fa-flag text-accent-gold mt-1"></i>
+<div>
+<h4 class="font-semibold text-sm mb-1">National Asset</h4>
+<p class="text-xs text-gray-400">Indigenous LLM becomes symbol of digital <span class="highlight-sovereign">sovereignty</span> with irreplaceable strategic value</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-1">
+<div class="flex items-center justify-between mb-6">
+<span class="text-xs font-semibold text-red-400 tracking-wider">VISUAL INSTRUCTION C</span>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+<span class="text-xs text-gray-500">Urgency</span>
+</div>
+</div>
+<div class="aspect-video rounded-2xl bg-gradient-to-br from-red-900/20 to-surface-900 flex items-center justify-center relative overflow-hidden border border-red-500/20">
+<div class="absolute inset-0 bg-gradient-to-t from-red-500/10 to-transparent"></div>
+<div class="text-center p-6">
+<i class="fas fa-exclamation-circle text-4xl text-red-400 mb-4"></i>
+<h4 class="font-bold text-lg mb-2">Data <span class="highlight-sovereign">Sovereignty</span> Alert</h4>
+<p class="text-sm text-gray-400">Reference: Recent Iran information leakage / hacking incident headlines</p>
+</div>
+</div>
+<p class="text-xs text-gray-500 mt-4 text-center">Insert: News headlines regarding data <span class="highlight-sovereign">sovereignty</span> incidents</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section III: Product -->
+<section id="product" class="py-24 px-4">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16 fade-in">
+<div class="inline-flex items-center gap-2 text-accent-teal text-sm font-semibold mb-4">
+<span class="w-8 h-px bg-accent-teal"></span>
+SECTION III
+<span class="w-8 h-px bg-accent-teal"></span>
+</div>
+<h2 class="text-3xl md:text-5xl font-bold mb-4">Our Product</h2>
+<p class="text-gray-400 text-lg special-title">Secure AI Server Empowered by NTU AI Lab</p>
+</div>
+
+<!-- Product Image Display -->
+<div class="mb-16 fade-in">
+<div class="relative rounded-3xl overflow-hidden glass p-2">
+<div class="relative aspect-video bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl overflow-hidden">
+<img src="PixPin_2026-03-03_02-45-08.png" alt="Articura Secure AI Server" class="w-full h-full object-contain">
+<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+<p class="text-white font-semibold text-lg"><span class="highlight-articura">Articura</span> AI Server</p>
+<p class="text-gray-300 text-sm special-desc">Secure Hardware Solution for Sovereign AI</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="section-card glass rounded-3xl p-8 mb-8 fade-in">
+<div class="flex items-center gap-4 mb-6 p-4 rounded-xl bg-gradient-to-r from-primary-500/10 to-accent-teal/10">
+<div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-teal flex items-center justify-center">
+<i class="fas fa-university text-white text-2xl"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold">Technology Origin</h3>
+<p class="text-gray-400">Nanyang Technological University (NTU) Cyber Security AI Lab, Singapore</p>
+</div>
+</div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-6 mb-8">
+<div class="section-card glass rounded-3xl p-8 fade-in">
+<div class="w-14 h-14 rounded-2xl bg-primary-500/20 flex items-center justify-center mb-6">
+<span class="text-2xl font-bold text-primary-400">1</span>
+</div>
+<h3 class="text-xl font-bold mb-4">Rapid Informatization</h3>
+<p class="text-gray-300 mb-4">Building Digital Warehouses</p>
+<p class="text-sm text-gray-400">Help hospitals and primary clinics (Puskesmas) achieve informatization levels in an extremely short time that would take other countries 3-5 years of investment.</p>
+<div class="mt-6 flex items-center gap-2 text-primary-400 text-sm">
+<i class="fas fa-clock"></i>
+<span>Bidding farewell to paper-based office work</span>
+</div>
+</div>
+
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-1">
+<div class="w-14 h-14 rounded-2xl bg-accent-teal/20 flex items-center justify-center mb-6">
+<span class="text-2xl font-bold text-accent-teal">2</span>
+</div>
+<h3 class="text-xl font-bold mb-4">Standardization & Security</h3>
+<p class="text-gray-300 mb-4">Building a Security Cornerstone</p>
+<p class="text-sm text-gray-400">Providing standardized, closed-source hospital HIS/LIS/PACS and clinic CMS systems to directly replace open-source systems, eliminating data leakage risks.</p>
+<div class="mt-6 p-3 rounded-lg bg-surface-800/50 text-xs text-gray-400">
+<span class="text-accent-teal font-medium">"Lego-Style" Architecture:</span> Out-of-the-box modules for small institutions, customizable for large ones.
+</div>
+</div>
+
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-2">
+<div class="w-14 h-14 rounded-2xl bg-accent-indigo/20 flex items-center justify-center mb-6">
+<span class="text-2xl font-bold text-accent-indigo">3</span>
+</div>
+<h3 class="text-xl font-bold mb-4">Built-in Edge AI</h3>
+<p class="text-gray-300 mb-4">Unchallengeable Data <span class="highlight-sovereign">Sovereignty</span></p>
+<p class="text-sm text-gray-400">Edge Computing ensures all sensitive medical data achieves "Data never leaves the building" - fully complying with Indonesian and global strictest regulations (HIPAA).</p>
+<div class="mt-6 flex items-center gap-3">
+<div class="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-medium">
+<i class="fas fa-check-circle mr-1"></i>
+HIPAA Compliant
+</div>
+<div class="px-3 py-1 rounded-full bg-primary-500/20 text-primary-400 text-xs font-medium">
+<i class="fas fa-shield-alt mr-1"></i>
+PDP Law Ready
+</div>
+</div>
+</div>
+
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-3">
+<div class="w-14 h-14 rounded-2xl bg-accent-gold/20 flex items-center justify-center mb-6">
+<span class="text-2xl font-bold text-accent-gold">4</span>
+</div>
+<h3 class="text-xl font-bold mb-4">Web3 Commercialization</h3>
+<p class="text-gray-300 mb-4">Derivative Business Space</p>
+<p class="text-sm text-gray-400">Medical Web3.0 blueprint: Data cleaning, desensitization, and DID technology to create "Indonesian Medical Data Token" for pharmaceutical and insurance collaboration.</p>
+<div class="mt-6 grid grid-cols-2 gap-2 text-xs">
+<div class="p-2 rounded-lg bg-surface-800/50 text-center">
+<i class="fas fa-pills text-gray-500 mb-1"></i>
+<p class="text-gray-400">Real World Studies</p>
+</div>
+<div class="p-2 rounded-lg bg-surface-800/50 text-center">
+<i class="fas fa-shield-alt text-gray-500 mb-1"></i>
+<p class="text-gray-400">Insurance Products</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section IV: Implementation Path -->
+<section id="roadmap" class="py-24 px-4 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-accent-indigo/5 to-transparent"></div>
+<div class="max-w-7xl mx-auto relative z-10">
+<div class="text-center mb-16 fade-in">
+<div class="inline-flex items-center gap-2 text-accent-indigo text-sm font-semibold mb-4">
+<span class="w-8 h-px bg-accent-indigo"></span>
+SECTION IV
+<span class="w-8 h-px bg-accent-indigo"></span>
+</div>
+<h2 class="text-3xl md:text-5xl font-bold mb-4">Implementation Path</h2>
+<p class="text-gray-400 text-lg">Evolution from "Tool" to "Model Incubator"</p>
+</div>
+
+<div class="relative">
+<!-- Connection Lines -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none hidden lg:block" style="z-index: 0;">
+<line class="stage-line" x1="33%" y1="200" x2="66%" y2="200" stroke="url(#gradient1)" stroke-width="2" stroke-dasharray="8 4"/>
+<line class="stage-line" x1="66%" y1="200" x2="100%" y2="200" stroke="url(#gradient1)" stroke-width="2" stroke-dasharray="8 4"/>
+<defs>
+<linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" style="stop-color:#00b4cc;stop-opacity:0.5"/>
+<stop offset="100%" style="stop-color:#6366f1;stop-opacity:0.5"/>
+</linearGradient>
+</defs>
+</svg>
+
+<div class="grid lg:grid-cols-3 gap-8">
+<!-- Stage 1 -->
+<div class="section-card glass rounded-3xl p-8 fade-in relative">
+<div class="absolute -top-4 left-8 px-4 py-1 rounded-full bg-gradient-to-r from-primary-500 to-primary-600 text-sm font-bold">
+STAGE 1
+</div>
+<div class="pt-4">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center">
+<i class="fas fa-database text-primary-400"></i>
+</div>
+<div>
+<h3 class="font-bold">Data Collection</h3>
+<p class="text-xs text-gray-500">Infrastructure Deployment</p>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<h4 class="text-sm font-semibold text-primary-400 mb-2">Action</h4>
+<p class="text-sm text-gray-400">Comprehensive deployment of <span class="highlight-secure">Secure</span> AI Servers, replacing open-source risk points with closed-source systems.</p>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-accent-teal mb-2">Goal</h4>
+<p class="text-sm text-gray-400">Complete structuring and standardization of medical data at edge, forming high-quality "Data Fuel."</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Stage 2 -->
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-1 relative">
+<div class="absolute -top-4 left-8 px-4 py-1 rounded-full bg-gradient-to-r from-accent-teal to-teal-600 text-sm font-bold">
+STAGE 2
+</div>
+<div class="pt-4">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-12 h-12 rounded-xl bg-accent-teal/20 flex items-center justify-center">
+<i class="fas fa-brain text-accent-teal"></i>
+</div>
+<div>
+<h3 class="font-bold">Data Refining</h3>
+<p class="text-xs text-gray-500">Edge Training & Model Incubation</p>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<h4 class="text-sm font-semibold text-accent-teal mb-2">Action</h4>
+<p class="text-sm text-gray-400">Utilize edge computing for distributed model training while ensuring "data never leaves the hospital."</p>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-accent-gold mb-2">Significance</h4>
+<p class="text-sm text-gray-400">Build transparent, <span class="highlight-secure">secure</span> "National AI Brain" - breaking <span class="highlight-foreign">foreign</span> model dependence.</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Stage 3 -->
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-2 relative">
+<div class="absolute -top-4 left-8 px-4 py-1 rounded-full bg-gradient-to-r from-accent-indigo to-indigo-600 text-sm font-bold">
+STAGE 3
+</div>
+<div class="pt-4">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-12 h-12 rounded-xl bg-accent-indigo/20 flex items-center justify-center">
+<i class="fas fa-network-wired text-accent-indigo"></i>
+</div>
+<div>
+<h3 class="font-bold">Data Circulation</h3>
+<p class="text-xs text-gray-500">National Interface & Ecosystem</p>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<h4 class="text-sm font-semibold text-accent-indigo mb-2">Action</h4>
+<p class="text-sm text-gray-400">Feed mature LLM back into processes via API, build "Data Asset Rights Confirmation Platform."</p>
+</div>
+<div>
+<h4 class="text-sm font-semibold text-primary-400 mb-2">Goal</h4>
+<p class="text-sm text-gray-400">Establish "National Unique Interface" status with exponential commercial value leap.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section V: Business Model -->
+<section id="model" class="py-24 px-4">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16 fade-in">
+<div class="inline-flex items-center gap-2 text-primary-400 text-sm font-semibold mb-4">
+<span class="w-8 h-px bg-primary-400"></span>
+SECTION V
+<span class="w-8 h-px bg-primary-400"></span>
+</div>
+<h2 class="text-3xl md:text-5xl font-bold mb-4">Business Model</h2>
+<p class="text-gray-400 text-lg">Stable "Triangle" Ecosystem & Benefit Distribution</p>
+</div>
+
+<!-- Triangle Diagram -->
+<div class="section-card glass rounded-3xl p-8 mb-8 fade-in">
+<h3 class="text-xl font-bold mb-8 text-center">Basic Ecosystem: User - Service Provider - Supplier</h3>
+<div class="relative max-w-2xl mx-auto">
+<svg viewBox="0 0 400 350" class="w-full h-auto">
+<!-- Triangle Background -->
+<polygon points="200,40 50,300 350,300" fill="none" stroke="url(#triangleGradient)" stroke-width="2" opacity="0.3"/>
+<defs>
+<linearGradient id="triangleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" style="stop-color:#00b4cc"/>
+<stop offset="50%" style="stop-color:#14b8a6"/>
+<stop offset="100%" style="stop-color:#6366f1"/>
+</linearGradient>
+</defs>
+
+<!-- Top Node - Product Supplier -->
+<g class="triangle-node" style="cursor: pointer;">
+<circle cx="200" cy="40" r="35" fill="url(#nodeGradient1)" class="pulse-ring"/>
+<circle cx="200" cy="40" r="35" fill="none" stroke="#00b4cc" stroke-width="2" class="node-glow" style="filter: blur(4px);"/>
+<text x="200" y="35" text-anchor="middle" fill="white" font-size="10" font-weight="bold">SUPPLIER</text>
+<text x="200" y="48" text-anchor="middle" fill="#94a3b8" font-size="8">(Us)</text>
+</g>
+
+<!-- Left Node - AI Service Provider -->
+<g class="triangle-node" style="cursor: pointer;">
+<circle cx="50" cy="300" r="35" fill="url(#nodeGradient2)" class="pulse-ring"/>
+<circle cx="50" cy="300" r="35" fill="none" stroke="#14b8a6" stroke-width="2" class="node-glow" style="filter: blur(4px);"/>
+<text x="50" y="295" text-anchor="middle" fill="white" font-size="9" font-weight="bold">SERVICE</text>
+<text x="50" y="308" text-anchor="middle" fill="#f59e0b" font-size="8" font-weight="bold">(<tspan fill="#d97706">Articura</tspan>)</text>
+</g>
+
+<!-- Right Node - User -->
+<g class="triangle-node" style="cursor: pointer;">
+<circle cx="350" cy="300" r="35" fill="url(#nodeGradient3)" class="pulse-ring"/>
+<circle cx="350" cy="300" r="35" fill="none" stroke="#6366f1" stroke-width="2" class="node-glow" style="filter: blur(4px);"/>
+<text x="350" y="295" text-anchor="middle" fill="white" font-size="10" font-weight="bold">USER</text>
+<text x="350" y="308" text-anchor="middle" fill="#94a3b8" font-size="8">(Hospitals)</text>
+</g>
+
+<defs>
+<radialGradient id="nodeGradient1">
+<stop offset="0%" style="stop-color:#00b4cc"/>
+<stop offset="100%" style="stop-color:#007a8c"/>
+</radialGradient>
+<radialGradient id="nodeGradient2">
+<stop offset="0%" style="stop-color:#14b8a6"/>
+<stop offset="100%" style="stop-color:#0d9488"/>
+</radialGradient>
+<radialGradient id="nodeGradient3">
+<stop offset="0%" style="stop-color:#6366f1"/>
+<stop offset="100%" style="stop-color:#4f46e5"/>
+</radialGradient>
+</defs>
+
+<!-- Connection Labels -->
+<text x="125" y="160" fill="#64748b" font-size="9" text-anchor="middle">Hardware +</text>
+<text x="125" y="172" fill="#64748b" font-size="9" text-anchor="middle">Technology</text>
+
+<text x="275" y="160" fill="#64748b" font-size="9" text-anchor="middle">Maintenance &amp;</text>
+<text x="275" y="172" fill="#64748b" font-size="9" text-anchor="middle">Data Operations</text>
+
+<text x="200" y="325" fill="#64748b" font-size="9" text-anchor="middle">AI Services</text>
+<text x="200" y="338" fill="#64748b" font-size="9" text-anchor="middle">Subscription</text>
+</svg>
+</div>
+
+<!-- Node Details -->
+<div class="grid md:grid-cols-3 gap-6 mt-8">
+<div class="p-5 rounded-2xl bg-primary-500/10 border border-primary-500/20">
+<h4 class="font-bold text-primary-400 mb-3 flex items-center gap-2">
+<i class="fas fa-microchip"></i>
+Product Supplier (Us)
+</h4>
+<p class="text-xs text-gray-400 mb-2"><span class="text-white">Role:</span> Providing <span class="highlight-secure">Secure</span> AI Server and underlying technology</p>
+<p class="text-xs text-gray-400"><span class="text-white">Benefit:</span> Hardware sales + Long-term ecosystem value</p>
+</div>
+<div class="p-5 rounded-2xl bg-accent-teal/10 border border-accent-teal/20">
+<h4 class="font-bold text-accent-teal mb-3 flex items-center gap-2">
+<i class="fas fa-robot"></i>
+AI Service Provider
+</h4>
+<p class="text-xs text-gray-400 mb-2"><span class="text-white">Role:</span> Deeply embed AI capabilities into processes</p>
+<p class="text-xs text-gray-400"><span class="text-white">Benefit:</span> Subscription income + Data asset revenue + High valuation</p>
+</div>
+<div class="p-5 rounded-2xl bg-accent-indigo/10 border border-accent-indigo/20">
+<h4 class="font-bold text-accent-indigo mb-3 flex items-center gap-2">
+<i class="fas fa-hospital"></i>
+User (Hospitals/Clinics)
+</h4>
+<p class="text-xs text-gray-400 mb-2"><span class="text-white">Role:</span> Enjoy leapfrog informatization development</p>
+<p class="text-xs text-gray-400"><span class="text-white">Benefit:</span> Low-cost transformation + Improved efficiency</p>
+</div>
+</div>
+</div>
+
+<!-- Advanced Ecosystem -->
+<div class="section-card glass rounded-3xl p-8 fade-in">
+<h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+<i class="fas fa-project-diagram text-accent-gold"></i>
+Advanced Ecosystem: Industry Connection & Fee Model
+</h3>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="p-6 rounded-2xl bg-surface-800/50">
+<h4 class="font-semibold mb-4">Attract Industry Players</h4>
+<div class="flex flex-wrap gap-3">
+<span class="px-4 py-2 rounded-lg bg-blue-500/20 text-blue-400 text-sm">
+<i class="fas fa-pills mr-2"></i>Pharmaceutical
+</span>
+<span class="px-4 py-2 rounded-lg bg-green-500/20 text-green-400 text-sm">
+<i class="fas fa-shield-alt mr-2"></i>Insurance
+</span>
+<span class="px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 text-sm">
+<i class="fas fa-graduation-cap mr-2"></i>Research
+</span>
+</div>
+</div>
+<div class="p-6 rounded-2xl bg-gradient-to-br from-accent-gold/10 to-transparent border border-accent-gold/20">
+<h4 class="font-semibold mb-4 text-accent-gold">Connection Fees</h4>
+<p class="text-sm text-gray-400">Both parties jointly collect "Connection Fees" or "Data Service Revenue Sharing," forming continuous high-gross-margin income.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section VI: Startup Strategy -->
+<section class="py-24 px-4 relative">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary-900/5 to-transparent"></div>
+<div class="max-w-7xl mx-auto relative z-10">
+<div class="text-center mb-16 fade-in">
+<div class="inline-flex items-center gap-2 text-accent-gold text-sm font-semibold mb-4">
+<span class="w-8 h-px bg-accent-gold"></span>
+SECTION VI
+<span class="w-8 h-px bg-accent-gold"></span>
+</div>
+<h2 class="text-3xl md:text-5xl font-bold mb-4">Startup Strategy</h2>
+<p class="text-gray-400 text-lg">Replicating the "NVIDIA-Lilly" Co-built Lab Model</p>
+</div>
+
+<div class="grid md:grid-cols-3 gap-6">
+<div class="section-card glass rounded-3xl p-8 fade-in">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white font-bold">1</div>
+<h3 class="font-bold">Strategic Endorsement</h3>
+</div>
+<div class="space-y-4">
+<div class="p-4 rounded-xl bg-surface-800/50">
+<h4 class="text-sm font-semibold text-primary-400 mb-2">Co-built Laboratory</h4>
+<p class="text-xs text-gray-400">Jointly announce "Indonesian Indigenous AI Medical Laboratory"</p>
+</div>
+<div class="p-4 rounded-xl bg-surface-800/50">
+<h4 class="text-sm font-semibold text-accent-teal mb-2">Official Guidance</h4>
+<p class="text-xs text-gray-400">Obtain support documents from regulatory bodies</p>
+</div>
+</div>
+</div>
+
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-1">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-teal to-teal-600 flex items-center justify-center text-white font-bold">2</div>
+<h3 class="font-bold">Funding & Resource</h3>
+</div>
+<div class="space-y-4">
+<div class="p-4 rounded-xl bg-surface-800/50">
+<h4 class="text-sm font-semibold text-accent-teal mb-2">Vendor-Investor Landing</h4>
+<p class="text-xs text-gray-400">Strategic startup capital for first batch of <span class="highlight-secure">Secure</span> AI Servers</p>
+</div>
+<div class="p-4 rounded-xl bg-surface-800/50">
+<h4 class="text-sm font-semibold text-accent-gold mb-2">Benchmark Creation</h4>
+<p class="text-xs text-gray-400">Select 3-5 benchmark hospitals for pilot "Model Room" cases</p>
+</div>
+</div>
+</div>
+
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-2">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-indigo to-indigo-600 flex items-center justify-center text-white font-bold">3</div>
+<h3 class="font-bold">Momentum Diffusion</h3>
+</div>
+<div class="space-y-4">
+<div class="p-4 rounded-xl bg-surface-800/50">
+<h4 class="text-sm font-semibold text-accent-indigo mb-2">Attract Institutions</h4>
+<p class="text-xs text-gray-400">Media publicity and benchmark cases to expand network</p>
+</div>
+<div class="p-4 rounded-xl bg-surface-800/50">
+<h4 class="text-sm font-semibold text-primary-400 mb-2">Capital Acceleration</h4>
+<p class="text-xs text-gray-400">Joint financing from banks and investors for national coverage</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section VII: Implementation Items -->
+<section id="contact" class="py-24 px-4">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16 fade-in">
+<div class="inline-flex items-center gap-2 text-primary-400 text-sm font-semibold mb-4">
+<span class="w-8 h-px bg-primary-400"></span>
+SECTION VII
+<span class="w-8 h-px bg-primary-400"></span>
+</div>
+<h2 class="text-3xl md:text-5xl font-bold mb-4">Implementation Discussion</h2>
+<p class="text-gray-400 text-lg">Key Topics for Strategic Cooperation</p>
+</div>
+
+<!-- Market Insight - Full Width Card -->
+<div class="section-card glass rounded-3xl p-8 mb-6 fade-in">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-14 h-14 rounded-2xl bg-primary-500/20 flex items-center justify-center">
+<i class="fas fa-search-dollar text-primary-400 text-xl"></i>
+</div>
+<div>
+<h3 class="font-bold text-xl">Market Insight</h3>
+<p class="text-sm text-gray-500">Budget & Payment Profiling</p>
+</div>
+</div>
+<div class="space-y-3 text-gray-400">
+<p><span class="text-white font-semibold">Research Focus:</span> <span class="font-bold text-white">Annual informatization budget for Class A, B, C hospitals and Puskesmas</span></p>
+<p><span class="text-white font-medium">Core Question:</span> Government appropriation vs self-raised? Annual vs project-based cycle?</p>
+</div>
+</div>
+
+<!-- Interest Mechanism - Full Width Card -->
+<div class="section-card glass rounded-3xl p-8 mb-6 fade-in stagger-1">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-14 h-14 rounded-2xl bg-accent-teal/20 flex items-center justify-center">
+<i class="fas fa-hand-holding-usd text-accent-teal text-xl"></i>
+</div>
+<div>
+<h3 class="font-bold text-xl">Interest Mechanism</h3>
+<p class="text-sm text-gray-500">BD Profit Sharing & Incentives</p>
+</div>
+</div>
+<div class="space-y-3 text-gray-400">
+<p><span class="text-white font-semibold">Design:</span> <span class="font-bold text-white">BD commission ratios and settlement cycles</span></p>
+<p><span class="text-white font-medium">Consideration:</span> Tiered profit-sharing for early clients</p>
+</div>
+</div>
+
+<!-- Bottom 2 Cards Grid -->
+<div class="grid md:grid-cols-2 gap-6">
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-2">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-14 h-14 rounded-2xl bg-accent-indigo/20 flex items-center justify-center">
+<i class="fas fa-balance-scale text-accent-indigo text-xl"></i>
+</div>
+<div>
+<h3 class="font-bold">Compliance & Assets</h3>
+<p class="text-sm text-gray-500">Data <span class="highlight-sovereign">Sovereignty</span> Definition</p>
+</div>
+</div>
+<div class="space-y-3 text-sm text-gray-400">
+<p><span class="text-white font-medium">Core Topic:</span> Ownership and usage rights of cleaned data assets</p>
+<p><span class="text-white font-medium">Direction:</span> Raw data belongs to hospital; training rights to Joint Lab per PDP Law</p>
+</div>
+</div>
+
+<div class="section-card glass rounded-3xl p-8 fade-in stagger-3">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-14 h-14 rounded-2xl bg-accent-gold/20 flex items-center justify-center">
+<i class="fas fa-users-cog text-accent-gold text-xl"></i>
+</div>
+<div>
+<h3 class="font-bold">Operation Assurance</h3>
+<p class="text-sm text-gray-500">Localized Service Team</p>
+</div>
+</div>
+<div class="space-y-3 text-sm text-gray-400">
+<p><span class="text-white font-medium">Service System:</span> Post-deployment O&M responsibility</p>
+<p><span class="text-white font-medium">Suggestion:</span> We provide training; your side handles local implementation</p>
+</div>
+</div>
+</div>
+
+<!-- CTA -->
+<div class="mt-16 text-center fade-in">
+<div class="section-card glass rounded-3xl p-12 max-w-4xl mx-auto glow">
+<h3 class="text-2xl font-bold mb-6">Ready to Build Indonesia's Healthcare AI Future?</h3>
+<p class="text-gray-300 text-lg mb-4">Let's initiate the strategic discussion and transform this vision into reality.</p>
+<p class="text-gray-400 text-base">Please feel free to contact <span class="font-semibold text-white">Orbiva Limited</span></p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="py-12 px-4 border-t border-white/5">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-teal flex items-center justify-center">
+<i class="fas fa-dna text-white"></i>
+</div>
+<div>
+<div class="font-bold">Indonesia Healthcare AI</div>
+<div class="text-xs text-gray-500">Strategic Partnership Proposal</div>
+</div>
+</div>
+<div class="text-sm text-gray-500">
+Powered by NTU Cyber Security AI Lab Technology
+</div>
+</div>
+</div>
+</footer>
+
+<script>
+// Scroll Progress Bar
+const progressBar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+const scrolled = (window.scrollY / windowHeight) * 100;
+progressBar.style.transform = `scaleX(${scrolled / 100})`;
+});
+
+// Intersection Observer for fade-in animations
+const observerOptions = {
+threshold: 0.1,
+rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+entry.target.classList.add('visible');
+// Trigger SVG line animations
+if (entry.target.querySelector('.stage-line')) {
+entry.target.querySelectorAll('.stage-line').forEach(line => {
+line.classList.add('visible');
+});
+}
+}
+});
+}, observerOptions);
+
+document.querySelectorAll('.fade-in').forEach(el => {
+observer.observe(el);
+});
+
+// Smooth scroll for navigation
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function(e) {
+e.preventDefault();
+const target = document.querySelector(this.getAttribute('href'));
+if (target) {
+target.scrollIntoView({
+behavior: 'smooth',
+block: 'start'
+});
+}
+});
+});
+
+// Active nav link on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+window.addEventListener('scroll', () => {
+let current = '';
+sections.forEach(section => {
+const sectionTop = section.offsetTop;
+const sectionHeight = section.clientHeight;
+if (scrollY >= sectionTop - 200) {
+current = section.getAttribute('id');
+}
+});
+
+navLinks.forEach(link => {
+link.classList.remove('active');
+if (link.getAttribute('href') === `#${current}`) {
+link.classList.add('active');
+}
+});
+});
+
+// Triangle node hover effects
+document.querySelectorAll('.triangle-node').forEach(node => {
+node.addEventListener('mouseenter', function() {
+this.style.transform = 'scale(1.1)';
+});
+node.addEventListener('mouseleave', function() {
+this.style.transform = 'scale(1)';
+});
+});
+
+// Initialize animations on load
+window.addEventListener('load', () => {
+document.querySelectorAll('.fade-in').forEach((el, index) => {
+setTimeout(() => {
+if (el.getBoundingClientRect().top < window.innerHeight) {
+el.classList.add('visible');
+}
+}, index * 50);
+});
+});
+</script>
+</body>
+</html>
